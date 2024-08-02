@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options Calculator</title>
+    <style>
+        .flex-container {
+            display: flex;
+            justify-content: flex-start;
+            margin: 20px;
+            gap: 16px;
+        }
+
+        .container {
+            border: 1px solid #000;
+            padding: 20px;
+            width: 18%;
+        }
+
+        .pl-container {
+            border: 1px solid #000;
+            padding: 11px;
+            width: 18%;
+        }
+
+        .strike-table {
+            width: 18.8%;
+            white-space: nowrap;
+            margin-bottom: -96px;
+            margin-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        button {
+            margin-top: 16px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .pl-table-container {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin: 20px;
+            gap: 16px;
+        }
+
+        .summaries {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .summary-container {
+            border: 2px solid #000;
+            padding: 20px;
+            width: 19%;
+            box-sizing: border-box;
+            margin: 20px 10px;
+            margin-left: 20px;
+            left: 10px;
+            top: 50px;
+        }
+
+        .pl-table {
+            border: 2px solid #000;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #summary_pl_table {
+            display: table; /* Ensure the table is displayed */
+        }
+    
+        #summary-table {
+            display: block; /* Ensure the container is displayed */
+        }
+
+        .pl-final-table {
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        .pl-final-table th, .pl-final-table td {
+            width: 100%;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="flex-container">
+        <div class="container" id="leg1">
+            <h3>Leg 1</h3>
+            <table>
+                <tr>
+                    <td>Option Type</td>
+                    <td>
+                        <select name="option1">
+                            <option value="call" selected>Call</option>
+                            <option value="put">Put</option>
+                            <option value="future">Future</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Strike Price</td>
+                    <td><input type="text" name="strike1"></td>
+                </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td><input type="text" name="quantity1"></td>
+                </tr>
+                <tr>
+                    <td>Premium</td>
+                    <td><input type="text" name="premium1"></td>
+                </tr>
+                <tr>
+                    <td>Spot Price</td>
+                    <td><input type="text" name="spot_price1"></td>
+                </tr>
+            </table>
+            <button onclick="generatePLTable('leg1')">Submit</button>
+        </div>
+        <div class="container" id="leg2">
+            <h3>Leg 2</h3>
+            <table>
+                <tr>
+                    <td>Option Type</td>
+                    <td>
+                        <select name="option2">
+                            <option value="call" selected>Call</option>
+                            <option value="put">Put</option>
+                            <option value="future">Future</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Strike Price</td>
+                    <td><input type="text" name="strike2"></td>
+                </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td><input type="text" name="quantity2"></td>
+                </tr>
+                <tr>
+                    <td>Premium</td>
+                    <td><input type="text" name="premium2"></td>
+                </tr>
+                <tr>
+                    <td>Spot Price</td>
+                    <td><input type="text" name="spot_price2"></td>
+                </tr>
+            </table>
+            <button onclick="generatePLTable('leg2')">Submit</button>
+        </div>
+        <div class="container" id="leg3">
+            <h3>Leg 3</h3>
+            <table>
+                <tr>
+                    <td>Option Type</td>
+                    <td>
+                        <select name="option3">
+                            <option value="call" selected>Call</option>
+                            <option value="put">Put</option>
+                            <option value="future">Future</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Strike Price</td>
+                    <td><input type="text" name="strike3"></td>
+                </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td><input type="text" name="quantity3"></td>
+                </tr>
+                <tr>
+                    <td>Premium</td>
+                    <td><input type="text" name="premium3"></td>
+                </tr>
+                <tr>
+                    <td>Spot Price</td>
+                    <td><input type="text" name="spot_price3"></td>
+                </tr>
+            </table>
+            <button onclick="generatePLTable('leg3')">Submit</button>
+        </div>
+        <div class="container" id="leg4">
+            <h3>Leg 4</h3>
+            <table>
+                <tr>
+                    <td>Option Type</td>
+                    <td>
+                        <select name="option4">
+                            <option value="call" selected>Call</option>
+                            <option value="put">Put</option>
+                            <option value="future">Future</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Strike Price</td>
+                    <td><input type="text" name="strike4"></td>
+                </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td><input type="text" name="quantity4"></td>
+                </tr>
+                <tr>
+                    <td>Premium</td>
+                    <td><input type="text" name="premium4"></td>
+                </tr>
+                <tr>
+                    <td>Spot Price</td>
+                    <td><input type="text" name="spot_price4"></td>
+                </tr>
+            </table>
+            <button onclick="generatePLTable('leg4')">Submit</button>
+        </div>
+        <div class="container" id="leg5">
+            <h3>Leg 5</h3>
+            <table>
+                <tr>
+                    <td>Option Type</td>
+                    <td>
+                        <select name="option5">
+                            <option value="call" selected>Call</option>
+                            <option value="put">Put</option>
+                            <option value="future">Future</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Strike Price</td>
+                    <td><input type="text" name="strike5"></td>
+                </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td><input type="text" name="quantity5"></td>
+                </tr>
+                <tr>
+                    <td>Premium</td>
+                    <td><input type="text" name="premium5"></td>
+                </tr>
+                <tr>
+                    <td>Spot Price</td>
+                    <td><input type="text" name="spot_price5"></td>
+                </tr>
+            </table>
+            <button onclick="generatePLTable('leg5')">Submit</button>
+        </div>
+    </div>
+    <div class="summaries">
+        <div class="summary-container" id="summary-table" style="display:none;">
+            <h3>Summary P/L Table</h3>
+            <table class="pl-table" id="summary_pl_table">
+                <tr>
+                    <th>Expiry Price</th>
+                    <th>P/L</th>
+                </tr>
+            </table>
+        </div>
+        <div class="summary-info" id="summary-info" style="display:none;">
+            <table class="pl-final-table" id="summary_info_table">
+                <tr>
+                    <th>Max Profit</th>
+                    <td id="max_profit"></td>
+                </tr>
+                <tr>
+                    <th>Max Loss</th>
+                    <td id="max_loss"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="chart-container">
+            <canvas id="plChart"></canvas>
+        </div>
+    </div>
+    <div class="pl-table-container" id="pl-tables"></div>
+
+    <script>
+        const tables = {};
+        let hasSubmitted = false;
+        let chart;
+
+        function generateRows(legId, strikePrice, expiryMultiplied, optionType, premium, quantity) {
+            let rows = '';
+            for (let i = 0; i < 37; i++) {
+                let expiryPrice;
+                if (i < 18) {
+                    expiryPrice = strikePrice - (18 - i) * expiryMultiplied;
+                } else if (i === 18) {
+                    expiryPrice = strikePrice;
+                } else {
+                    expiryPrice = strikePrice + (i - 18) * expiryMultiplied;
+                }
+
+                let pl;
+                if (optionType === 'call') {
+                    pl = expiryPrice - (strikePrice + premium) < -premium ? -premium * quantity : (expiryPrice - (strikePrice + premium)) * quantity;
+                } else if (optionType === 'put') {
+                    pl = (strikePrice - premium) - expiryPrice < -premium ? -premium * quantity : ((strikePrice - premium) - expiryPrice) * quantity;
+                } else {
+                    pl = 0; // Future or other option types not calculated
+                }
+
+                rows += `<tr><td>${expiryPrice.toFixed(2)}</td><td>${pl.toFixed(2)}</td></tr>`;
+            }
+            return rows;
+        }
+
+        function generatePLTable(legId) {
+            const leg = document.getElementById(legId);
+            const optionType = leg.querySelector(`select[name^="option"]`).value;
+            const strikePrice = parseFloat(leg.querySelector(`input[name^="strike"]`).value);
+            const premium = parseFloat(leg.querySelector(`input[name^="premium"]`).value);
+            const quantity = parseInt(leg.querySelector(`input[name^="quantity"]`).value);
+
+            if (isNaN(strikePrice) || isNaN(premium) || isNaN(quantity)) {
+                console.log(strikePrice)
+                console.log(premium)
+                console.log(quantity)
+                alert("Please fill in all the fields correctly.");
+                return; // Don't generate table if any input is missing or invalid
+            }
+
+            const expiryMultiplied = strikePrice * 0.005;
+            const rows = generateRows(legId, strikePrice, expiryMultiplied, optionType, premium, quantity);
+
+            const legNumber = legId.substr(legId.length - 1); // => "1"
+
+            const plTable = `
+                <div class="pl-container" id="pl_container_${legNumber}">
+                    <h3>P/L Table for Leg ${legNumber}</h3>
+                    <table class="pl-table" id="pl_table_${legNumber}">
+                        <tr>
+                            <th>Expiry Price</th>
+                            <th>P/L</th>
+                        </tr>
+                        ${rows}
+                    </table>
+                </div>
+            `;
+
+            // Store or replace the table in the dictionary with its leg number
+            tables[legNumber] = plTable;
+
+            // Clear the pl-tables container
+            const plTablesContainer = document.getElementById("pl-tables");
+            plTablesContainer.innerHTML = '';
+
+            // Sort the tables by leg number and append to the pl-tables container
+            Object.keys(tables).sort((a, b) => a - b).forEach(legNumber => {
+                plTablesContainer.insertAdjacentHTML('beforeend', tables[legNumber]);
+            });
+
+            // Set the hasSubmitted flag to true
+            hasSubmitted = true;
+
+            // Generate or refresh the summary table
+            generateSummaryTable();
+        }
+
+        function generateSummaryTable() {
+            if (!hasSubmitted) return;
+        
+            const summaryTable = document.getElementById("summary_pl_table");
+        
+            summaryTable.innerHTML = `
+                <tr>
+                    <th>Expiry Price</th>
+                    <th>P/L</th>
+                </tr>
+            `;
+        
+            let minExpiryPrice = Infinity;
+            let maxExpiryPrice = -Infinity;
+            const legData = {};
+        
+            // Collect expiry prices and P/L values for each leg
+            Object.keys(tables).forEach(legNumber => {
+                legData[legNumber] = [];
+                const tableRows = document.querySelectorAll(`#pl_table_${legNumber} tr`);
+                tableRows.forEach((row, index) => {
+                    if (index === 0) return; // Skip header row
+                    const cells = row.querySelectorAll("td");
+                    const expiryPrice = parseFloat(cells[0].textContent);
+                    const pl = parseFloat(cells[1].textContent);
+        
+                    legData[legNumber].push({ expiryPrice, pl });
+        
+                    if (expiryPrice < minExpiryPrice) {
+                        minExpiryPrice = expiryPrice;
+                    }
+                    if (expiryPrice > maxExpiryPrice) {
+                        maxExpiryPrice = expiryPrice;
+                    }
+                });
+            });
+        
+            console.log("Min Expiry Price:", minExpiryPrice);
+            console.log("Max Expiry Price:", maxExpiryPrice);
+        
+            // Generate 37 equally spaced expiry prices
+            const summaryRows = [];
+            const increment = (maxExpiryPrice - minExpiryPrice) / 36;
+            for (let i = 0; i < 37; i++) {
+                const expiryPrice = minExpiryPrice + i * increment;
+                summaryRows.push({ expiryPrice, pl: 0 });
+            }
+        
+            // Estimate P/L for each summary expiry price using linear interpolation
+            summaryRows.forEach(row => {
+                let totalPL = 0;
+                Object.keys(legData).forEach(legNumber => {
+                    const legPrices = legData[legNumber];
+                    for (let i = 0; i < legPrices.length - 1; i++) {
+                        const current = legPrices[i];
+                        const next = legPrices[i + 1];
+                        if (row.expiryPrice >= current.expiryPrice && row.expiryPrice <= next.expiryPrice) {
+                            const ratio = (row.expiryPrice - current.expiryPrice) / (next.expiryPrice - current.expiryPrice);
+                            const interpolatedPL = current.pl + ratio * (next.pl - current.pl);
+                            totalPL += interpolatedPL;
+                            break;
+                        }
+                    }
+                });
+                row.pl = totalPL;
+            });
+        
+            console.log("Summary Rows after interpolation:", summaryRows);
+        
+            // Insert rows into the summary table
+            summaryRows.forEach(row => {
+                summaryTable.insertAdjacentHTML('beforeend', `<tr><td>${row.expiryPrice.toFixed(2)}</td><td>${row.pl.toFixed(2)}</td></tr>`);
+            });
+        
+            const summaryFlexContainer = document.getElementById("summary-flex-container");
+            if (summaryFlexContainer) {
+                summaryFlexContainer.style.display = 'flex';
+            }
+
+            document.getElementById("summary-table").style.display = 'block';
+        
+            calculateMaxProfitLoss(summaryRows);
+            generateChart(summaryRows);
+        }
+
+        function calculateMaxProfitLoss(summaryRows) {
+            const maxProfitEl = document.getElementById("max_profit");
+            const maxLossEl = document.getElementById("max_loss");
+
+            if (!maxProfitEl || !maxLossEl) return; // Ensure elements are selected correctly
+
+            const plValues = summaryRows.map(row => row.pl);
+            const lastPL = plValues[plValues.length - 1];
+            const secondLastPL = plValues[plValues.length - 2];
+            const firstPL = plValues[0];
+            const secondPL = plValues[1];
+
+            // Calculate max profit potential
+            let maxProfit;
+            if (lastPL > secondLastPL || secondPL > firstPL) {
+                maxProfit = "Unlimited";
+            } else {
+                maxProfit = Math.max(...plValues).toFixed(2);
+            }
+
+            // Calculate max loss possible
+            let maxLoss;
+            if (lastPL < secondLastPL || firstPL < secondPL) {
+                maxLoss = "Unlimited";
+            } else {
+                maxLoss = Math.min(...plValues).toFixed(2);
+            }
+
+            // Update the summary info table
+            maxProfitEl.textContent = maxProfit;
+            maxLossEl.textContent = maxLoss;
+
+            document.getElementById("summary-info").style.display = 'block';
+        }
+
+function generateChart(summaryRows) {
+    const ctx = document.getElementById('plChart').getContext('2d');
+    const expiryPrices = summaryRows.map(row => row.expiryPrice.toFixed(2));
+    const plValues = summaryRows.map(row => row.pl);
+
+    if (chart) {
+        chart.destroy(); // Destroy the previous chart instance if it exists
+    }
+
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: expiryPrices,
+            datasets: [{
+                label: 'P/L',
+                data: plValues,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Expiry Price'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'P/L'
+                    }
+                }
+            }
+        }
+    });
+}
+    </script>
+</body>
+</html>
