@@ -118,6 +118,15 @@
             <h3>Leg 1</h3>
             <table>
                 <tr>
+                    <td>Buy/Sell</td>
+                    <td>
+                        <select name="buysell1">
+                            <option value="buy" selected>Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td>Option Type</td>
                     <td>
                         <select name="option1">
@@ -149,6 +158,15 @@
         <div class="container" id="leg2">
             <h3>Leg 2</h3>
             <table>
+                <tr>
+                    <td>Buy/Sell</td>
+                    <td>
+                        <select name="buysell2">
+                            <option value="buy" selected>Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </td>
+                </tr>
                 <tr>
                     <td>Option Type</td>
                     <td>
@@ -182,6 +200,15 @@
             <h3>Leg 3</h3>
             <table>
                 <tr>
+                    <td>Buy/Sell</td>
+                    <td>
+                        <select name="buysell3">
+                            <option value="buy" selected>Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td>Option Type</td>
                     <td>
                         <select name="option3">
@@ -214,6 +241,15 @@
             <h3>Leg 4</h3>
             <table>
                 <tr>
+                    <td>Buy/Sell</td>
+                    <td>
+                        <select name="buysell4">
+                            <option value="buy" selected>Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td>Option Type</td>
                     <td>
                         <select name="option4">
@@ -245,6 +281,15 @@
         <div class="container" id="leg5">
             <h3>Leg 5</h3>
             <table>
+                <tr>
+                    <td>Buy/Sell</td>
+                    <td>
+                        <select name="buysell5">
+                            <option value="buy" selected>Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </td>
+                </tr>
                 <tr>
                     <td>Option Type</td>
                     <td>
@@ -308,7 +353,7 @@
         let hasSubmitted = false;
         let chart;
 
-        function generateRows(legId, strikePrice, expiryMultiplied, optionType, premium, quantity) {
+        function generateRows(legId, strikePrice, expiryMultiplied, optionType, premium, quantity, buySell) {
             let rows = '';
             for (let i = 0; i < 37; i++) {
                 let expiryPrice;
@@ -322,9 +367,17 @@
 
                 let pl;
                 if (optionType === 'call') {
-                    pl = expiryPrice - (strikePrice + premium) < -premium ? -premium * quantity : (expiryPrice - (strikePrice + premium)) * quantity;
+                    if (buySell === 'buy') {
+                        pl = expiryPrice - (strikePrice + premium) < -premium ? -premium * quantity : (expiryPrice - (strikePrice + premium)) * quantity;
+                    } else if (buySell === 'sell') {
+                        pl = expiryPrice > strikePrice ? (premium - (expiryPrice - strikePrice) * quantity) : premium * quantity;
+                    }
                 } else if (optionType === 'put') {
-                    pl = (strikePrice - premium) - expiryPrice < -premium ? -premium * quantity : ((strikePrice - premium) - expiryPrice) * quantity;
+                    if (buySell === 'buy') {
+                        pl = (strikePrice - premium) - expiryPrice < -premium ? -premium * quantity : ((strikePrice - premium) - expiryPrice) * quantity;
+                    } else if (buySell === 'sell') {
+                        pl = expiryPrice < strikePrice ? (premium - (strikePrice - expiryPrice) * quantity) : premium * quantity;
+                    }
                 } else {
                     pl = 0; // Future or other option types not calculated
                 }
@@ -337,6 +390,7 @@
         function generatePLTable(legId) {
             const leg = document.getElementById(legId);
             const optionType = leg.querySelector(`select[name^="option"]`).value;
+            const buySell = leg.querySelector(`select[name^="buysell"]`).value;
             const strikePrice = parseFloat(leg.querySelector(`input[name^="strike"]`).value);
             const premium = parseFloat(leg.querySelector(`input[name^="premium"]`).value);
             const quantity = parseInt(leg.querySelector(`input[name^="quantity"]`).value);
@@ -350,7 +404,7 @@
             }
 
             const expiryMultiplied = strikePrice * 0.005;
-            const rows = generateRows(legId, strikePrice, expiryMultiplied, optionType, premium, quantity);
+            const rows = generateRows(legId, strikePrice, expiryMultiplied, optionType, premium, quantity, buySell);
 
             const legNumber = legId.substr(legId.length - 1); // => "1"
 
